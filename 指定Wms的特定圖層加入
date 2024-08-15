@@ -1,0 +1,11 @@
+var _testurl = "https://ows.terrestris.de/osm/service?request=GetCapabilities";
+//var _testName = "LUM_blu_2011.tif";
+var serverConnection = new CIMInternetServerConnection { URL = _testurl, };
+var connection = new CIMWMSServiceConnection { ServerConnection = serverConnection };
+connection.LayerName = "OSM-Overlay-WMS";
+var layerParams = new LayerCreationParams(connection);
+
+await QueuedTask.Run(() =>
+{
+    var layer = LayerFactory.Instance.CreateLayer<WMSLayer>(layerParams, MapView.Active.Map);
+});
